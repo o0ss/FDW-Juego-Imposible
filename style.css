@@ -205,17 +205,16 @@ button:hover {
     user-select: none; 
     margin: 1px;
     order: 0;
-    transition: border 250ms ease-out, transform 100ms ease, translate 100ms ease;
+    transition: border 150ms ease-out, transform 50ms ease-out, translate 100ms ease;
 }
 
 .ficha:hover {
     border-color: rgb(102, 87, 0);
 }
 
-/* .ficha.stretch-u {
-    transform: scaleY(1.8);
-    translate: 0px -5vh;
-} */
+.ficha:active {
+    transform: scale(0.97);
+}
 
 .ficha.empty {
     background-color: rgb(240, 240, 240);
@@ -224,3 +223,8 @@ button:hover {
 .ficha.empty:hover {
     border-color: rgb(240, 240, 240);
 }
+
+/* .ficha.stretch-u {
+    transform: scaleY(1.8);
+    translate: 0px -5vh;
+} */
