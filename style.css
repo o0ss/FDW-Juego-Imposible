@@ -212,10 +212,10 @@ button:hover {
     border-color: rgb(102, 87, 0);
 }
 
-.ficha.stretch-u {
+/* .ficha.stretch-u {
     transform: scaleY(1.8);
     translate: 0px -5vh;
-}
+} */
 
 .ficha.empty {
     background-color: rgb(240, 240, 240);

@@ -64,46 +64,44 @@ function setRandomOrder() {
 
 }
 
-function trySlide(ficha) {
-    if(nextToEmpty(ficha.id)) {
-        stretch(ficha);
-    }
-}
+// function trySlide(ficha) {
+//     if(nextToEmpty(ficha.id)) {
+//         stretch(ficha);
+//     }
+// }
 
-function stretch(ficha) {
-    let d = getDir(ficha);
-    switch (d) {
-        case 'up':
-            ficha.classList.add('stretch-u');
-            break;
-        case 'down':
-            ficha.classList.add('stretch-d');
-            break;
-        case 'left':
-            ficha.classList.add('stretch-l');
-            break;
-        case 'right':
-            ficha.classList.add('stretch-r');
-        default:
-            break;
-    }
-}
+// function stretch(ficha) {
+//     let d = getDir(ficha);
+//     switch (d) {
+//         case 'up':
+//             ficha.classList.add('stretch-u');
+//             break;
+//         case 'down':
+//             ficha.classList.add('stretch-d');
+//             break;
+//         case 'left':
+//             ficha.classList.add('stretch-l');
+//             break;
+//         case 'right':
+//             ficha.classList.add('stretch-r');
+//         default:
+//             break;
+//     }
+// }
 
-function getDir(ficha) {
-    let coords_f = orderToCoords(ficha.style.order);
-    let coords_empty = orderToCoords(document.getElementById("empty").style.order);
+// function getDir(ficha) {
+//     let coords_f = orderToCoords(ficha.style.order);
+//     let coords_empty = orderToCoords(document.getElementById("empty").style.order);
 
-    let dir = '?';
+//     let dir = '?';
 
-    if(coords_f[0] == coords_empty[0]) {
-        dir = coords_f[1] < coords_empty[1] ? 'right' : 'left';
-    } else if(coords_f[1] == coords_empty[1]) {
-        dir = coords_f[0] < coords_empty[0] ? 'down' : 'up';
-    }
-    return dir;
-}
-
-
+//     if(coords_f[0] == coords_empty[0]) {
+//         dir = coords_f[1] < coords_empty[1] ? 'right' : 'left';
+//     } else if(coords_f[1] == coords_empty[1]) {
+//         dir = coords_f[0] < coords_empty[0] ? 'down' : 'up';
+//     }
+//     return dir;
+// }
 
 function tryMove(id) {
     if(nextToEmpty(id)) {
@@ -164,8 +162,6 @@ function checkIfWon() {
             break;
         }
     }
-
     won = ok_count==15? true: false;
-    
     return won;
 }
