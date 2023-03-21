@@ -1,6 +1,7 @@
 var playerName;
 var timer = 0;
 var move_count = 0;
+var won = false;
 
 window.onload = function() {
     playerName = sessionStorage.getItem('playerName');
@@ -11,9 +12,25 @@ window.onload = function() {
     setRandomOrder();
 };
 
+function back() {
+    let gb = document.getElementsByClassName("gameboard")[0];
+    let h = document.getElementById("player-name-h");
+    let bb = document.getElementById("back-button");
+
+    gb.classList.add("shrink");
+    h.classList.add("fade");
+    bb.classList.add("fade");
+
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 200);
+}
+
 function updateTimer() {
-    timer++;
-    document.getElementById("timer").innerHTML = timer;
+    if(!won){
+        timer++;
+        document.getElementById("timer").innerHTML = timer;
+    }
 }
 
 function updateMoveCount() {
@@ -46,6 +63,47 @@ function setRandomOrder() {
     // }
 
 }
+
+function trySlide(ficha) {
+    if(nextToEmpty(ficha.id)) {
+        stretch(ficha);
+    }
+}
+
+function stretch(ficha) {
+    let d = getDir(ficha);
+    switch (d) {
+        case 'up':
+            ficha.classList.add('stretch-u');
+            break;
+        case 'down':
+            ficha.classList.add('stretch-d');
+            break;
+        case 'left':
+            ficha.classList.add('stretch-l');
+            break;
+        case 'right':
+            ficha.classList.add('stretch-r');
+        default:
+            break;
+    }
+}
+
+function getDir(ficha) {
+    let coords_f = orderToCoords(ficha.style.order);
+    let coords_empty = orderToCoords(document.getElementById("empty").style.order);
+
+    let dir = '?';
+
+    if(coords_f[0] == coords_empty[0]) {
+        dir = coords_f[1] < coords_empty[1] ? 'right' : 'left';
+    } else if(coords_f[1] == coords_empty[1]) {
+        dir = coords_f[0] < coords_empty[0] ? 'down' : 'up';
+    }
+    return dir;
+}
+
+
 
 function tryMove(id) {
     if(nextToEmpty(id)) {
@@ -93,7 +151,6 @@ function orderToCoords(order) {
 }
 
 function checkIfWon() {
-    let won = false;
     let ok_count=0;
     fs = document.getElementsByClassName("ficha")
     for (let i = 0; i < fs.length-1; i++) {
@@ -107,8 +164,8 @@ function checkIfWon() {
             break;
         }
     }
-    if (ok_count == 15) {
-        won = true;
-    }
+
+    won = ok_count==15? true: false;
+    
     return won;
 }

@@ -1,8 +1,14 @@
 var playerName;
 
 function Start() {
-    document.getElementById("start-button").innerHTML = "";
-    document.getElementById("start-button").classList.add("clicked");
+    let sb = document.getElementById("start-button");
+    let h = document.getElementsByClassName("title")[0];
+    let pnf = document.getElementById("player-name-field");
+    
+    sb.innerHTML = "         ";
+    sb.classList.add("clicked");
+    h.classList.add("fade");
+    pnf.classList.add("fade");
 
     playerName = document.getElementById("player-name-field").value;
     if (playerName == "") {
@@ -13,5 +19,5 @@ function Start() {
 
     setTimeout(() => {
         window.location.href = "imposible.html"
-    }, 500);
+    }, 200);
 }
