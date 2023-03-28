@@ -6,9 +6,11 @@ var won = false;
 
 window.onload = function() {
     playerName = sessionStorage.getItem('playerName');
+    if(playerName==null) playerName = 'Player 1';
     document.getElementById("player-name-h").innerHTML = playerName;
 
-    size = sessionStorage.getItem('size');
+    size = Math.max(sessionStorage.getItem('size'), 3);
+    if(size==NaN) size = 3;
 
     document.documentElement.style.setProperty('--ficha-wh','calc(((100% - 16px)/' + size.toString() + ') - 2px)')
     let fsize = parseFloat(3 - Math.log10(size)*2);
@@ -106,45 +108,6 @@ function setRandomOrder() {
 
 }
 
-// function trySlide(ficha) {
-//     if(nextToEmpty(ficha.id)) {
-//         stretch(ficha);
-//     }
-// }
-
-// function stretch(ficha) {
-//     let d = getDir(ficha);
-//     switch (d) {
-//         case 'up':
-//             ficha.classList.add('stretch-u');
-//             break;
-//         case 'down':
-//             ficha.classList.add('stretch-d');
-//             break;
-//         case 'left':
-//             ficha.classList.add('stretch-l');
-//             break;
-//         case 'right':
-//             ficha.classList.add('stretch-r');
-//         default:
-//             break;
-//     }
-// }
-
-// function getDir(ficha) {
-//     let coords_f = orderToCoords(ficha.style.order);
-//     let coords_empty = orderToCoords(document.getElementById("empty").style.order);
-
-//     let dir = '?';
-
-//     if(coords_f[0] == coords_empty[0]) {
-//         dir = coords_f[1] < coords_empty[1] ? 'right' : 'left';
-//     } else if(coords_f[1] == coords_empty[1]) {
-//         dir = coords_f[0] < coords_empty[0] ? 'down' : 'up';
-//     }
-//     return dir;
-// }
-
 function tryMoveOf(ficha) {
     tryMove(ficha.id);
 }
@@ -153,7 +116,7 @@ function tryMove(id) {
     if(nextToEmpty(id)) {
         move(id);
     }
-    if(checkIfWon()) {
+    if(checkIfWonOrdered() || checkIfWonSpiral()) {
         setTimeout(() => {
             alert("Ganaste en "+timer+" segundos con "+move_count+" movimientos.");
             
@@ -194,7 +157,12 @@ function orderToCoords(order) {
     return coords;
 }
 
-function checkIfWon() {
+function coordsToOrder(coords) {
+    let order = (coords[0] * size) + coords[1] + 1;
+    return order;
+}
+
+function checkIfWonOrdered() {
     let ok_count=0;
     fs = document.getElementsByClassName("ficha")
     for (let i = 0; i < fs.length-1; i++) {
@@ -210,5 +178,128 @@ function checkIfWon() {
     }
     let num_fs = size*size-1;
     won = ok_count==num_fs? true: false;
+    return won;
+}
+
+function checkIfWonSpiral() {
+    let moveDir = 0;
+    let top = 0
+    let bottom = size-1;
+    let left = 0;
+    let right = size-1;
+    let ficha_num = 1;
+    let coords = Array(2);
+    let count_ok = 0;
+
+    let won = false;
+    let stop = false;
+
+    while (top <= bottom && left <= right && !stop && ficha_num<size*size) {
+        if (moveDir == 0) {
+            coords[0] = top;
+            for (let i = left; i <= right; i++) {
+                coords[1] = i;
+                let order_i = coordsToOrder(coords);
+                let order_ficha = document.getElementById('f'+ficha_num.toString()).style.order;
+                if(order_i == order_ficha) {
+                    count_ok++;
+                }
+                else {
+                    console.log('Spiral: broke at')
+                    console.log('top = ' + top)
+                    console.log('bottom = ' + bottom)
+                    console.log('left = ' + left)
+                    console.log('right = ' + right)
+                    console.log('ficha_num = ' + ficha_num)
+                    console.log('order_ficha = ' + order_ficha)
+                    console.log('order_i = ' + order_i)
+                    stop = true;
+                    break;
+                }
+                ficha_num++;
+            }
+            top++;
+            moveDir = 1;
+        } else if (moveDir == 1) {
+            coords[1] = right;
+            for (let i = top; i <= bottom; i++) {
+                coords[0] = i;
+                let order_i = coordsToOrder(coords);
+                let order_ficha = document.getElementById('f'+ficha_num.toString()).style.order;
+                if(order_i == order_ficha) {
+                    count_ok++;
+                }
+                else {
+                    console.log('Spiral: broke at')
+                    console.log('top = ' + top)
+                    console.log('bottom = ' + bottom)
+                    console.log('left = ' + left)
+                    console.log('right = ' + right)
+                    console.log('ficha_num = ' + ficha_num)
+                    console.log('order_ficha = ' + order_ficha)
+                    console.log('order_i = ' + order_i)
+                    stop = true;
+                    break;
+                }
+                ficha_num++;
+            }
+            right--;
+            moveDir = 2;
+        } else if (moveDir == 2) {
+            coords[0] = bottom;
+            for (let i = right; i >= left; i--) {
+                coords[1] = i;
+                let order_i = coordsToOrder(coords);
+                let order_ficha = document.getElementById('f'+ficha_num.toString()).style.order;
+                if(order_i == order_ficha) {
+                    count_ok++;
+                }
+                else {
+                    console.log('Spiral: broke at')
+                    console.log('top = ' + top)
+                    console.log('bottom = ' + bottom)
+                    console.log('left = ' + left)
+                    console.log('right = ' + right)
+                    console.log('ficha_num = ' + ficha_num)
+                    console.log('order_ficha = ' + order_ficha)
+                    console.log('order_i = ' + order_i)
+                    stop = true;
+                    break;
+                }
+                ficha_num++;
+            }
+            bottom--;
+            moveDir = 3;
+        } else if (moveDir == 3) {
+            coords[1] = left;
+            for (let i = bottom; i >= top; i--) {
+                coords[0] = i;
+                let order_i = coordsToOrder(coords);
+                let order_ficha = document.getElementById('f'+ficha_num.toString()).style.order;
+                if(order_i == order_ficha) {
+                    count_ok++;
+                }
+                else {
+                    console.log('Spiral: broke at')
+                    console.log('top = ' + top)
+                    console.log('bottom = ' + bottom)
+                    console.log('left = ' + left)
+                    console.log('right = ' + right)
+                    console.log('ficha_num = ' + ficha_num)
+                    console.log('order_ficha = ' + order_ficha)
+                    console.log('order_i = ' + order_i)
+                    stop = true;
+                    break;
+                }
+                ficha_num++;
+            }
+            left++;
+            moveDir = 0;
+        }
+    }
+
+    if(count_ok == size*size-1) {
+        won = true;
+    }
     return won;
 }
