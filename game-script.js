@@ -10,7 +10,9 @@ window.onload = function() {
     document.getElementById("player-name-h").innerHTML = playerName;
 
     size = Math.max(sessionStorage.getItem('size'), 3);
-    if(size==NaN) size = 3;
+    if(isNaN(size)){
+        size = 3;
+    }
 
     document.documentElement.style.setProperty('--ficha-wh','calc(((100% - 16px)/' + size.toString() + ') - 2px)')
     let fsize = parseFloat(3 - Math.log10(size)*2);
@@ -191,7 +193,7 @@ function checkIfWonSpiral() {
     let coords = Array(2);
     let count_ok = 0;
 
-    let won = false;
+    won = false;
     let stop = false;
 
     while (top <= bottom && left <= right && !stop && ficha_num<size*size) {
@@ -205,14 +207,6 @@ function checkIfWonSpiral() {
                     count_ok++;
                 }
                 else {
-                    console.log('Spiral: broke at')
-                    console.log('top = ' + top)
-                    console.log('bottom = ' + bottom)
-                    console.log('left = ' + left)
-                    console.log('right = ' + right)
-                    console.log('ficha_num = ' + ficha_num)
-                    console.log('order_ficha = ' + order_ficha)
-                    console.log('order_i = ' + order_i)
                     stop = true;
                     break;
                 }
@@ -230,14 +224,6 @@ function checkIfWonSpiral() {
                     count_ok++;
                 }
                 else {
-                    console.log('Spiral: broke at')
-                    console.log('top = ' + top)
-                    console.log('bottom = ' + bottom)
-                    console.log('left = ' + left)
-                    console.log('right = ' + right)
-                    console.log('ficha_num = ' + ficha_num)
-                    console.log('order_ficha = ' + order_ficha)
-                    console.log('order_i = ' + order_i)
                     stop = true;
                     break;
                 }
@@ -255,14 +241,6 @@ function checkIfWonSpiral() {
                     count_ok++;
                 }
                 else {
-                    console.log('Spiral: broke at')
-                    console.log('top = ' + top)
-                    console.log('bottom = ' + bottom)
-                    console.log('left = ' + left)
-                    console.log('right = ' + right)
-                    console.log('ficha_num = ' + ficha_num)
-                    console.log('order_ficha = ' + order_ficha)
-                    console.log('order_i = ' + order_i)
                     stop = true;
                     break;
                 }
@@ -280,14 +258,6 @@ function checkIfWonSpiral() {
                     count_ok++;
                 }
                 else {
-                    console.log('Spiral: broke at')
-                    console.log('top = ' + top)
-                    console.log('bottom = ' + bottom)
-                    console.log('left = ' + left)
-                    console.log('right = ' + right)
-                    console.log('ficha_num = ' + ficha_num)
-                    console.log('order_ficha = ' + order_ficha)
-                    console.log('order_i = ' + order_i)
                     stop = true;
                     break;
                 }

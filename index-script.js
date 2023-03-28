@@ -1,4 +1,5 @@
 var playerName;
+var size;
 
 window.onload = function () {
     sf = document.getElementById("size-field")
@@ -34,6 +35,10 @@ function Start() {
 
     size = parseInt(document.getElementById('size-field').value);
     size = Math.max(size, 3);
+    if(isNaN(size)) {
+        size = 3;
+    }
+    
     sessionStorage.setItem('playerName', playerName);
     sessionStorage.setItem('size', size);
 
