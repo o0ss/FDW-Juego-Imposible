@@ -10,7 +10,12 @@ window.onload = function() {
 
     size = sessionStorage.getItem('size');
 
+    document.documentElement.style.setProperty('--ficha-wh','calc(((100% - 16px)/' + size.toString() + ') - 2px)')
+    let fsize = parseFloat(3 - Math.log10(size)*2);
+    document.documentElement.style.setProperty('--ficha-font-size', fsize.toString()+'em');
+
     makeBoard();
+    addClickListenerToFichas();
     setRandomOrder();
 
 
@@ -21,7 +26,33 @@ window.onload = function() {
 };
 
 function makeBoard() {
+    let grid = document.getElementById('grid');
     
+    for (let i = 1; i < size*size; i++) {
+        let new_ficha = document.createElement('div');
+        new_ficha.classList.add('ficha');
+        new_ficha.id = 'f' + i.toString();
+        new_ficha.innerHTML = i.toString();
+        grid.appendChild(new_ficha);
+    }
+    let ficha_empty = document.createElement('div');
+    ficha_empty.classList.add('ficha');
+    ficha_empty.classList.add('empty');
+    ficha_empty.id = 'empty';
+    grid.appendChild(ficha_empty);
+}
+
+function addClickListenerToFichas() {
+    let fs = document.getElementsByClassName('ficha');
+
+    for (let i = 0; i < fs.length; i++) {
+        const f = fs[i];
+        if(f.id!= 'empty'){
+            f.addEventListener('click', function () {
+                tryMoveOf(this);
+            })
+        }
+    }
 }
 
 function back() {
@@ -114,6 +145,10 @@ function setRandomOrder() {
 //     return dir;
 // }
 
+function tryMoveOf(ficha) {
+    tryMove(ficha.id);
+}
+
 function tryMove(id) {
     if(nextToEmpty(id)) {
         move(id);
@@ -154,8 +189,8 @@ function nextToEmpty(id) {
 
 function orderToCoords(order) {
     coords = Array(2);
-    coords[0] = Math.floor((order-1)/4); // Row (0-3)
-    coords[1] = (order-1)%4; // Column (0-3)
+    coords[0] = Math.floor((order-1)/size); // Row (0-size-1)
+    coords[1] = (order-1)%size; // Column (0-size-1)
     return coords;
 }
 
@@ -173,6 +208,7 @@ function checkIfWon() {
             break;
         }
     }
-    won = ok_count==15? true: false;
+    let num_fs = size*size-1;
+    won = ok_count==num_fs? true: false;
     return won;
 }
