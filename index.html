@@ -15,8 +15,14 @@
         <div class="extra-padding">
             <h1 class="title">Juego Imposible</h1>
         </div>
-        <div class="spacer"></div>
-        <input type="text" id="player-name-field" class="text-input" placeholder="Escribe tu nombre">
+        <div class="column" id="fields-column">
+            <div class="field-name">Nombre del jugador</div>
+            <input type="text" id="player-name-field" class="input-field" placeholder="Escribe tu nombre">
+            <div class="spacer" style="height: 15px;"></div>
+            <div class="field-name">Tamaño del tablero (N x N)</div>
+            <input type="number" name="size-field" id="size-field" class="input-field" placeholder="N" min="3">
+            <div class="field-error" id="size-field-error">El tamaño mínimo es 3.</div>
+        </div>
         <div class="extra-padding">
             <button id="start-button" onclick="Start();">Comenzar</button>
         </div>

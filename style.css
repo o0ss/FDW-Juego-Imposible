@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 div {
     display: flex;
     padding: 8px;
@@ -35,8 +39,9 @@ div {
 body {
     display: flex;
     background-color: rgb(240, 240, 240);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    /* font-family: Courier, monospace, !important; */
+    /* font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+    font-family: Courier, monospace;
+    /* font-family: Georgia, 'Times New Roman', Times, serif; */
     color: rgb(38, 38, 38);
 }
 
@@ -51,21 +56,36 @@ body {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-.text-input {
+.field-name {
+    padding: 8px 8px 0px 8px;
+}
+
+.input-field {
     background-color: rgb(240, 240, 240);
     border-style: dashed;
     border-color: rgb(102, 87, 0);
     border-radius: 0.7em;
     text-align: center;
-    /* color: whitesmoke; */
     font-family: Courier, monospace;
+    font-size: larger;
+    font-weight: 600;
+    padding: 16px 40px;
+    margin: 8px 8px 8px 8px;
 }
 
-#player-name-field {
-    font-size: x-large;
-    font-weight: 600;
-    padding: 16px;
+.field-error {
+    color: rgb(220, 125, 1);
+    margin: 0px;
+    padding: 1px 8px;
+    display: none;
 }
+
+.field-error.on {
+    display: flex;
+}
+
+/* #player-name-field {
+} */
 
 button {
     padding: 8px 28px;
@@ -98,6 +118,18 @@ button:hover {
     border: 0px solid rgb(255, 221, 0);
     color: rgb(255, 221, 0);
     opacity: 0;
+}
+
+#start-button:disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#start-button:disabled:hover {
+    border-color: rgb(240, 240, 240);
+}
+
+#start-button:disabled:active {
+    transform: none;
 }
 
 .fade {

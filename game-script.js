@@ -1,4 +1,5 @@
 var playerName;
+var size;
 var timer = 0;
 var move_count = 0;
 var won = false;
@@ -6,11 +7,22 @@ var won = false;
 window.onload = function() {
     playerName = sessionStorage.getItem('playerName');
     document.getElementById("player-name-h").innerHTML = playerName;
+
+    size = sessionStorage.getItem('size');
+
+    makeBoard();
+    setRandomOrder();
+
+
     document.getElementById("moves").innerHTML = 0;
     document.getElementById("timer").innerHTML = timer;
+    setInterval(updateTimer, 1000);
 
-    setRandomOrder();
 };
+
+function makeBoard() {
+    
+}
 
 function back() {
     let gb = document.getElementsByClassName("gameboard")[0];
@@ -38,7 +50,6 @@ function updateMoveCount() {
     document.getElementById("moves").innerHTML = move_count;
 }
 
-setInterval(updateTimer, 1000);
 
 function setRandomOrder() {
     let fs = document.getElementsByClassName('ficha');
